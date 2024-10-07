@@ -1,0 +1,28 @@
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    configurations.all{
+        resolutionStrategy{
+            dependencySubstitution{
+                substitute module('org.jetbrains.kotlin:kotlin-stdlib-jdk8')with module('org.jetbrains.kotlin:kotlin-stdlib:1.5.11')
+                substitute module('org.jetbrains.kotlin:kotlin-stdlib-jdk7')with module('org.jetbrains.kotlin:kotlin-stdlib:1.5.11')
+            }
+        }
+    }
+
+}
+
+rootProject.buildDir = "../build"
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(":app")
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
